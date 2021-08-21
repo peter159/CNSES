@@ -35,11 +35,9 @@ class TsneVisual:
         self.data = self.parent.data
 
     def show(self):
-        plot_data = self.data[self.columns["tsne"]]
-        color_pallette = ["red", "black", "orange", "blue", "yellow", "purple"]
         nrow = int((np.sqrt(len(self.labels)) + 0.5).round())
         fig, axs = plt.subplots(nrow, nrow)
-        plt.tight_layout()      # 调整整体空白
+        fig.tight_layout()      # 调整整体空白
         plt.subplots_adjust(wspace=.05, hspace=.1) # 调整子图间距
         axs = axs.ravel()
         for ax in axs:
@@ -48,19 +46,17 @@ class TsneVisual:
 
         if self.n_dimension == 2:
             for i in range(len(self.labels)):
-                values = self.data[self.labels[i]].unique()
-                series = self.data[self.labels[i]]
-                ax = axs[i]
-                for val in values:
-                    sns.scatterplot(
-                        x=plot_data.iloc[:, 0][series == val],
-                        y=plot_data.iloc[:, 1][series == val],
-                        color=color_pallette[val - 1],
-                        size=8, 
-                        alpha=0.8, 
-                        ax=ax
-                    )
-                ax.set_title(self.labels[i])
+                data = self.data[["tsne_1", "tsne_2"] + [(self.labels[i])]]
+                sns.scatterplot(
+                    data=data, 
+                    x=self.data["tsne_1"],
+                    y=self.data["tsne_2"],
+                    hue=self.labels[i], 
+                    alpha=0.8, 
+                    palette="deep",
+                    ax=axs[i]
+                )
+                axs[i].set_title(self.labels[i])
             plt.suptitle("Segment Visualization")
             plt.show()
         elif self.n_dimension == 3:

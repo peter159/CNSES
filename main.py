@@ -11,32 +11,15 @@ from algorithms.clustering import (
 )
 from visualize import TsneVisual
 from algorithms.typing import RandomforestTyping
+from tables import taball
+from config import con_vars, cat_vars
 
 
 def main(filepath):
     """
     perform segmentation evaluation
     """
-
     # preprocess stage
-    vars_to_process = [
-        "tq423r1",
-        "tq423r2",
-        "tq423r3",
-        "tq423r4",
-        "tq423r5",
-        "tq423r6",
-        "tq423r7",
-        "tq423r8",
-        "tq423r9",
-        "tq423r10",
-        "tq423r11",
-        "tq423r12",
-        "tq423r13",
-        "tq423r14",
-        "tq423r15",
-        "tq423r16",
-    ]
     vars_to_process = [
         "Statistic_2",
         "Statistic_3",
@@ -75,6 +58,7 @@ def main(filepath):
         "Statistic_36",
     ]
     reader = Reader(filepath)
+
     reader = ZipfProcess(reader, vars=vars_to_process)
     reader = PcaProcess(reader, vars=vars_to_process)
     reader = ExponProcess(reader, vars=vars_to_process)
@@ -96,7 +80,7 @@ def main(filepath):
 
     # cluster stage
     vars_to_cluster = reader.columns["fac"]
-    # cluster = KMeansCluster(reader, vars=vars_to_cluster, nclusters=[3, 4, 5, 6])
+    cluster = KMeansCluster(reader, vars=vars_to_cluster, nclusters=[3, 4, 5, 6])
     # cluster = AfCluster(reader, vars=vars_to_process)
     # cluster = MeanshiftCluster(reader, vars=vars_to_process)  # do not use it yet
     # cluster = SpectralCluster(reader, vars=vars_to_process, nclusters=[3, 4, 5, 6])
@@ -106,7 +90,7 @@ def main(filepath):
 
     # typing stage
     typing = RandomforestTyping(
-        cluster, vars=vars_to_process, labels=cluster.columns["fclust_labels"]
+        cluster, vars=vars_to_process, labels=cluster.columns["kmeans_labels"]
     )
 
     # visualization stage
@@ -116,9 +100,18 @@ def main(filepath):
         vars=vars_to_process,
         # vars=["tq423r14","tq423r15","tq423r16"],
         # labels=cluster.columns["kmeans_labels"],
-        labels=cluster.columns["fclust_labels"],
+        labels=cluster.columns["kmeans_labels"],
     )
     visual.show()
+
+    # tabulation stage
+    taball(
+        data=cluster.data,
+        con_vars=con_vars,
+        cat_vars=cat_vars,
+        clu_vars=reader.columns["kmeans_labels"],
+        outfile="./tabit.xlsx",
+    )
     return None
 
 
