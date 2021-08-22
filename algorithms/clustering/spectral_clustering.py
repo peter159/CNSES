@@ -6,7 +6,7 @@ from sklearn.metrics import silhouette_score, calinski_harabasz_score
 
 class SpectralCluster:
     def __init__(self, reader, vars, nclusters) -> None:
-        print("{:-^100}".format(" performing kmeans clustering "))
+        print("{:-^100}".format(" performing spectral clustering "))
         self.parent = reader
         self.cluster_vars = vars
         self.nclusters = nclusters

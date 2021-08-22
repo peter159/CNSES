@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 
 
 class RandomforestTyping:
-    def __init__(self, cluster, vars, labels) -> None:
-        print("{:-^100}".format(" start typing: Randomforest "))
+    def __init__(self, cluster, vars, labels, type) -> None:
+        print("{:-^100}".format(" start typing: Randomforest on {} ".format(type)))
         self.parent = cluster
         self.__temp_vars__ = vars
         if set(labels).issubset(self.parent.data.columns):

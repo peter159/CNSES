@@ -4,7 +4,7 @@ import pandas as pd
 
 
 class Reader:
-    def __init__(self, file_path) -> None:
+    def __init__(self, file_path: str) -> None:
         self.file_path = file_path
         self.data = None
         self.__readin__()

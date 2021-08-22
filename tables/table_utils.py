@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-from typing import Counter
-import numpy as np
 import pandas as pd
 from openpyxl import load_workbook
 
