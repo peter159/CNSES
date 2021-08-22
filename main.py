@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from algorithms.clustering.spc_clupkg.cluster.selfrepresentation import (
-    ElasticNetSubspaceClustering,
-)
 from data_process import (
     Reader,
     ZipfProcess,
