@@ -69,17 +69,17 @@ def main(filepath: str) -> None:
     # cluster = AfCluster(reader, vars=vars_to_process)
     # cluster = MeanshiftCluster(reader, vars=vars_to_process)  # do not use it yet
     # cluster = SpectralCluster(reader, vars=vars_to_process, nclusters=[3, 4, 5, 6])
-    cluster = HcCluster(reader, vars=vars_to_cluster, nclusters=[3, 4, 5, 6])
-    cluster = FactorCluster(reader, vars=vars_to_cluster)
-    cluster = KprotoCluster(
-        reader,
-        convars=vars_to_cluster,
-        catvars=["S0b", "S0c", "S4"],
-        nclusters=[3, 4, 5, 6],
-    )
-    cluster = SubpaceCluster(
-        reader, vars=vars_to_cluster + reader.columns["onehot"], nclusters=[3, 4, 5, 6]
-    )
+    # cluster = HcCluster(reader, vars=vars_to_cluster, nclusters=[3, 4, 5, 6])
+    # cluster = FactorCluster(reader, vars=vars_to_cluster)
+    # cluster = KprotoCluster(
+    #     reader,
+    #     convars=vars_to_cluster,
+    #     catvars=["S0b", "S0c", "S4"],
+    #     nclusters=[3, 4, 5, 6],
+    # )
+    # cluster = SubpaceCluster(
+    #     reader, vars=vars_to_cluster + reader.columns["onehot"], nclusters=[3, 4, 5, 6]
+    # )
 
     # typing stage
     typing = RandomforestTyping(
@@ -88,42 +88,42 @@ def main(filepath: str) -> None:
         labels=cluster.columns["kmeans_labels"],
         type="kmeans",
     )
-    typing = RandomforestTyping(
-        cluster,
-        vars=vars_to_process,
-        labels=cluster.columns["hc_labels"],
-        type="hierarchical",
-    )
-    typing = RandomforestTyping(
-        cluster,
-        vars=vars_to_process,
-        labels=cluster.columns["fclust_labels"],
-        type="factorial",
-    )
-    typing = RandomforestTyping(
-        cluster,
-        vars=vars_to_process,
-        labels=cluster.columns["subspace_labels"],
-        type="subspace",
-    )
+    # typing = RandomforestTyping(
+    #     cluster,
+    #     vars=vars_to_process,
+    #     labels=cluster.columns["hc_labels"],
+    #     type="hierarchical",
+    # )
+    # typing = RandomforestTyping(
+    #     cluster,
+    #     vars=vars_to_process,
+    #     labels=cluster.columns["fclust_labels"],
+    #     type="factorial",
+    # )
+    # typing = RandomforestTyping(
+    #     cluster,
+    #     vars=vars_to_process,
+    #     labels=cluster.columns["subspace_labels"],
+    #     type="subspace",
+    # )
 
-    # visualization stage
-    visual = TsneVisual(
-        cluster,
-        # vars=cluster.columns["zipf"],
-        vars=vars_to_process + cluster.columns["onehot"],
-        # vars=["tq423r14","tq423r15","tq423r16"],
-        # labels=cluster.columns["kmeans_labels"],
-        labels=cluster.columns["subspace_labels"],
-    )
-    visual.show()
+    # # visualization stage
+    # visual = TsneVisual(
+    #     cluster,
+    #     # vars=cluster.columns["zipf"],
+    #     vars=vars_to_process + cluster.columns["onehot"],
+    #     # vars=["tq423r14","tq423r15","tq423r16"],
+    #     # labels=cluster.columns["kmeans_labels"],
+    #     labels=cluster.columns["subspace_labels"],
+    # )
+    # visual.show()
 
     # tabulation stage
     taball(
         data=cluster.data,
         con_vars=con_vars,
         cat_vars=cat_vars,
-        clu_vars=reader.columns["kproto_labels"],
+        clu_vars=reader.columns["kmeans_labels"],
         outfile=make_safe_path("./raws/output/tabit.xlsx"),
     )
     return None
