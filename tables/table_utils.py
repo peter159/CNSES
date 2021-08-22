@@ -182,7 +182,7 @@ def append_df_to_excel(
 
     # get the last row in the existing Excel sheet
     # if it was not specified explicitly
-    if startrow == 0 and sheet_name in writer.book.sheetnames:
+    if startrow is None and sheet_name in writer.book.sheetnames:
         startrow = writer.book[sheet_name].max_row
 
     # truncate sheet
@@ -196,6 +196,9 @@ def append_df_to_excel(
 
     # copy existing sheets
     writer.sheets = {ws.title: ws for ws in writer.book.worksheets}
+
+    if startrow is None:
+        startrow = 0
 
     # write out the new sheet
     df.to_excel(
