@@ -33,12 +33,18 @@ class FaProcess:
         data = self.__parent__.data[self.__temp_vars__]
         nvar = len(self.__temp_vars__)
         if self.nfactors == "auto":
-            fa = FactorAnalyzer(n_factors=nvar, rotation=None).fit(data)
+            fa = FactorAnalyzer(
+                n_factors=nvar, rotation="varimax", method="principal"
+            ).fit(data)
             ev, _ = fa.get_eigenvalues()
             self.nfactors = (ev >= 1).sum()
         elif self.nfactors <= nvar:
             self.nfactors = int(self.nfactors)
-        fa = FactorAnalyzer(n_factors=self.nfactors, rotation="varimax").fit(data)
+        fa = FactorAnalyzer(
+            n_factors=self.nfactors,
+            rotation="varimax",
+            method="principal",
+        ).fit(data)
         fa_loadings = pd.DataFrame(
             fa.loadings_,
             index=data.columns,

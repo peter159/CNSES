@@ -34,9 +34,9 @@ def main(filepath: str) -> None:
     reader = ZipfProcess(reader, vars=vars_to_process)
     reader = PcaProcess(reader, vars=vars_to_process)
     reader = ExponProcess(reader, vars=vars_to_process)
-    # reader = FaProcess(
-    #     reader, vars=vars_to_process, nfactors="auto", loading_save="./loadings.xlsx"
-    # )
+    reader = FaProcess(
+        reader, vars=vars_to_process, nfactors="auto", loading_save="./loadings.xlsx"
+    )
     reader = FaProcess(
         reader,
         vars=vars_to_process,
