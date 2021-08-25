@@ -2,6 +2,7 @@
 
 from sklearn.cluster import MeanShift, estimate_bandwidth
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
+from ...utils.parameters import random_seed
 
 
 class MeanshiftCluster:
@@ -20,7 +21,7 @@ class MeanshiftCluster:
         self.columns = self.parent.columns
         data = self.parent.data[self.cluster_vars]
         bandwidth = estimate_bandwidth(data, quantile=0.1, n_samples=500) # auto detect bdwith
-        labels = MeanShift(bandwidth=bandwidth, bin_seeding=True).fit(data).labels_
+        labels = MeanShift(bandwidth=bandwidth, bin_seeding=True, random_state=random_seed).fit(data).labels_
         self.parent.data[cols] = labels + 1
         print(
             "cluster, silhouette[-1,1]: {}, cal_har: {}".format(

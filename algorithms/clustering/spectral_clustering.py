@@ -2,6 +2,7 @@
 
 from sklearn.cluster import SpectralClustering
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
+from ...utils.parameters import random_seed
 
 
 class SpectralCluster:
@@ -22,7 +23,7 @@ class SpectralCluster:
         self.columns = self.parent.columns
         for nc in n_clusters:
             data = self.parent.data[self.cluster_vars]
-            labels = SpectralClustering(n_clusters=nc).fit(data).labels_
+            labels = SpectralClustering(n_clusters=nc, random_state=random_seed).fit(data).labels_
             self.parent.data[cols[n_clusters.index(nc)]] = labels + 1
             print(
                 "cluster -- {}, silhouette[-1,1]: {}, cal_har: {}".format(

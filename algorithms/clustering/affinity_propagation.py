@@ -2,6 +2,7 @@
 
 from sklearn.cluster import AffinityPropagation
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
+from ...utils.parameters import random_seed
 
 
 class AfCluster:
@@ -19,7 +20,7 @@ class AfCluster:
         self.parent.columns.update({"af_labels": cols})
         self.columns = self.parent.columns
         data = self.parent.data[self.cluster_vars]
-        labels = AffinityPropagation(random_state=2021).fit(data).labels_
+        labels = AffinityPropagation(random_state=random_seed).fit(data).labels_
         self.parent.data[cols] = labels + 1
         print(
             "cluster, silhouette[-1,1]: {}, cal_har: {}".format(

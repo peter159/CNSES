@@ -2,6 +2,7 @@
 
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
+from ...utils.parameters import random_seed
 
 
 class HcCluster:
@@ -22,7 +23,7 @@ class HcCluster:
         self.columns = self.__parent__.columns
         for nc in n_clusters:
             data = self.__parent__.data[self.cluster_vars]
-            labels = AgglomerativeClustering(n_clusters=nc).fit(data).labels_
+            labels = AgglomerativeClustering(n_clusters=nc, random_state=random_seed).fit(data).labels_
             self.__parent__.data[cols[n_clusters.index(nc)]] = labels + 1
             print(
                 "cluster -- {}, silhouette[-1,1]: {}, cal_har: {}".format(

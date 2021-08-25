@@ -2,6 +2,7 @@
 
 from .spc_clupkg.cluster.selfrepresentation import ElasticNetSubspaceClustering
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
+from ...utils.parameters import random_seed
 
 
 class SubpaceCluster:
@@ -24,7 +25,7 @@ class SubpaceCluster:
             data = self.__parent__.data[self.cluster_vars]
             labels = (
                 ElasticNetSubspaceClustering(
-                    n_clusters=nc, algorithm="lasso_lars", gamma=50
+                    n_clusters=nc, algorithm="lasso_lars", gamma=50, random_state=random_seed
                 )
                 .fit(data)
                 .labels_

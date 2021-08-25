@@ -2,6 +2,7 @@
 
 from kmodes.kprototypes import KPrototypes
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
+from ...utils.parameters import random_seed
 
 
 class KprotoCluster:
@@ -22,7 +23,7 @@ class KprotoCluster:
         cate_idx = [data.columns.tolist().index(x) for x in self.__temp_catvars_]
         for nc in n_clusters:
             labels = (
-                KPrototypes(n_clusters=nc, verbose=0, max_iter=200)
+                KPrototypes(n_clusters=nc, verbose=0, max_iter=200, random_state=random_seed)
                 .fit(data, categorical=cate_idx)
                 .labels_
             )
