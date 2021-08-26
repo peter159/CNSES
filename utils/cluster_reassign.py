@@ -40,7 +40,7 @@ class ClusterReassign:
         data_x_reassign = data_x.iloc[reassign_idx, :]
         rdf_model = RandomForestClassifier().fit(data_x_train, data_y_train)
         data_y_reassign = rdf_model.predict_proba(data_x_reassign) # (n_sample,n_classes)
-        data_y_reassign = [rdf_model.classes_[x.argmax()] if x.max() >= self.threshold else 999 for x in data_y_reassign]
+        data_y_reassign = [int(rdf_model.classes_[x.argmax()]) if x.max() >= self.threshold else 999 for x in data_y_reassign]
         reassign_name = "{}_reassign".format(cluster_var)
         self.__parent__.columns.update({
             "cluster_reassign": [reassign_name]
