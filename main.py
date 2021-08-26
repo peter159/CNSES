@@ -121,7 +121,7 @@ def main(filepath: str) -> None:
 
     # reassign
     reassign = ClusterReassign(
-        typing, vars=vars_to_process, cluster_var="kproto_7", exclude_code=[3]
+        typing, vars=vars_to_process, cluster_var="kproto_7", exclude_code=[3], threshold=0.9
     )
 
     # tabulation stage
