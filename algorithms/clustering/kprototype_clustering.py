@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import numpy as np
 from kmodes.kprototypes import KPrototypes
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
-from ...utils.parameters import random_seed
+from utils.parameters import random_seed
 
 
 class KprotoCluster:
@@ -22,8 +23,9 @@ class KprotoCluster:
         data = self.__parent__.data[self.__temp_convars_ + self.__temp_catvars_]
         cate_idx = [data.columns.tolist().index(x) for x in self.__temp_catvars_]
         for nc in n_clusters:
+            np.random.seed(random_seed)
             labels = (
-                KPrototypes(n_clusters=nc, verbose=0, max_iter=200, random_state=random_seed)
+                KPrototypes(n_clusters=nc, verbose=0, max_iter=200, init="Cao")
                 .fit(data, categorical=cate_idx)
                 .labels_
             )

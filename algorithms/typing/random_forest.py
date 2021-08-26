@@ -5,26 +5,35 @@ from sklearn.model_selection import train_test_split
 
 
 class RandomforestTyping:
-    def __init__(self, cluster, vars, labels, type) -> None:
-        print("{:-^100}".format(" start typing: Randomforest on {} ".format(type)))
-        self.parent = cluster
+    def __init__(self, cluster, vars, labels, clu_name) -> None:
+        print("{:-^100}".format(" start typing: Randomforest on {} ".format(clu_name)))
+        self.__parent__ = cluster
         self.__temp_vars__ = vars
-        if set(labels).issubset(self.parent.data.columns):
+        self.clu_name = clu_name
+        if set(labels).issubset(self.__parent__.data.columns):
             self.labels = labels
         else:
             raise KeyError("keys not in data")
         self.__typing__()
 
     def __typing__(self):
-        typing_data_x = self.parent.data[self.__temp_vars__]
+        typing_data_x = self.__parent__.data[self.__temp_vars__]
+        cols = [lab + "_pred" for lab in self.labels]
+        self.__parent__.columns.update({
+            self.clu_name + "predict": cols
+        })
+        self.columns = self.__parent__.columns
         for lab in self.labels:
-            typing_data_y = self.parent.data[lab].tolist()
+            typing_data_y = self.__parent__.data[lab].tolist()
             trainx, testx, trainy, testy = train_test_split(
                 typing_data_x, typing_data_y, test_size=0.3
             )
             model = RandomForestClassifier().fit(trainx, trainy)
             trainx_predict = model.predict(trainx)
             testx_predict = model.predict(testx)
+            predicted_all = model.predict(typing_data_x)
+            self.__parent__.data[cols[self.labels.index(lab)]] = predicted_all
+            self.data = self.__parent__.data
             print(
                 "{} -- train prediction: {}, test prediction: {}".format(
                     lab,

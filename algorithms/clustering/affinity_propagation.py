@@ -2,7 +2,7 @@
 
 from sklearn.cluster import AffinityPropagation
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
-from ...utils.parameters import random_seed
+from utils.parameters import random_seed
 
 
 class AfCluster:
