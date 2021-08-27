@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 
 class ClusterReassign:
-    def __init__(self, reader, vars, cluster_var, exclude_code, threshold=0.9) -> None:
+    def __init__(self, reader, vars, cluster_var, exclude_code, threshold=0.9, enlarge_ratio=1.3) -> None:
         """
         data: pandas dataframe
         vars: list of column name
@@ -17,6 +17,7 @@ class ClusterReassign:
         self.cluster_var = cluster_var
         self.exclude_code = exclude_code
         self.threshold = threshold
+        self.enlarge_ratio = enlarge_ratio
         self.cluster_reassign()
 
     def cluster_reassign(self):
@@ -35,6 +36,8 @@ class ClusterReassign:
                 remainder_idx.append(count)
             count += 1
         data_x = data[vars]
+        # enlarge with ratio
+        data_x = data_x.apply(lambda x: (x - x.mean()) * self.enlarge_ratio + x.mean(), axis=1)
         data_x_train = data_x.iloc[remainder_idx, :]
         data_y_train = data_y[remainder_idx]
         data_x_reassign = data_x.iloc[reassign_idx, :]
