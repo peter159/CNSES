@@ -48,7 +48,7 @@ class ClusterReassign:
 
         if self.overwrite:
             # enlarge with ratio, and overwrite origin
-            data[var] = data[var].apply(
+            data[vars] = data[vars].apply(
                 lambda x: (x - x.mean()) * self.enlarge_ratio + x.mean(), axis=1
             )
         else:
