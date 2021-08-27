@@ -5,7 +5,16 @@ from sklearn.ensemble import RandomForestClassifier
 
 
 class ClusterReassign:
-    def __init__(self, reader, vars, cluster_var, exclude_code, threshold=0.9, enlarge_ratio=1.3) -> None:
+    def __init__(
+        self,
+        reader,
+        vars,
+        cluster_var,
+        exclude_code,
+        threshold=0.9,
+        enlarge_ratio=1.3,
+        overwrite=True,
+    ) -> None:
         """
         data: pandas dataframe
         vars: list of column name
@@ -18,6 +27,7 @@ class ClusterReassign:
         self.exclude_code = exclude_code
         self.threshold = threshold
         self.enlarge_ratio = enlarge_ratio
+        self.overwrite = overwrite
         self.cluster_reassign()
 
     def cluster_reassign(self):
@@ -35,21 +45,32 @@ class ClusterReassign:
             else:
                 remainder_idx.append(count)
             count += 1
+
+        if self.overwrite:
+            # enlarge with ratio, and overwrite origin
+            data[var] = data[var].apply(
+                lambda x: (x - x.mean()) * self.enlarge_ratio + x.mean(), axis=1
+            )
+        else:
+            # enlarge with ratio, do not overwrite
+            data_x = data_x.apply(
+                lambda x: (x - x.mean()) * self.enlarge_ratio + x.mean(), axis=1
+            )
         data_x = data[vars]
-        # enlarge with ratio
-        data_x = data_x.apply(lambda x: (x - x.mean()) * self.enlarge_ratio + x.mean(), axis=1)
         data_x_train = data_x.iloc[remainder_idx, :]
         data_y_train = data_y[remainder_idx]
         data_x_reassign = data_x.iloc[reassign_idx, :]
         rdf_model = RandomForestClassifier().fit(data_x_train, data_y_train)
-        data_y_reassign = rdf_model.predict_proba(data_x_reassign) # (n_sample,n_classes)
-        data_y_reassign = [int(rdf_model.classes_[x.argmax()]) if x.max() >= self.threshold else 999 for x in data_y_reassign]
+        data_y_reassign = rdf_model.predict_proba(
+            data_x_reassign
+        )  # (n_sample,n_classes)
+        data_y_reassign = [
+            int(rdf_model.classes_[x.argmax()]) if x.max() >= self.threshold else 999
+            for x in data_y_reassign
+        ]
         reassign_name = "{}_reassign".format(cluster_var)
-        self.__parent__.columns.update({
-            "cluster_reassign": [reassign_name]
-        })
+        self.__parent__.columns.update({"cluster_reassign": [reassign_name]})
         data[reassign_name] = data[cluster_var]
         data[reassign_name][reassign_idx] = data_y_reassign
         self.columns = self.__parent__.columns
         self.data = data
-    
