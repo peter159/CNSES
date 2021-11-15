@@ -3,6 +3,7 @@
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+from plotly import express
 from sklearn.manifold import TSNE
 
 
@@ -37,8 +38,8 @@ class TsneVisual:
     def show(self):
         nrow = int((np.sqrt(len(self.labels)) + 0.5).round())
         fig, axs = plt.subplots(nrow, nrow)
-        fig.tight_layout()      # 调整整体空白
-        plt.subplots_adjust(wspace=.05, hspace=.1) # 调整子图间距
+        fig.tight_layout()  # 调整整体空白
+        plt.subplots_adjust(wspace=0.05, hspace=0.1)  # 调整子图间距
         axs = axs.ravel()
         for ax in axs:
             ax.set_xticks([])
@@ -48,18 +49,28 @@ class TsneVisual:
             for i in range(len(self.labels)):
                 data = self.data[["tsne_1", "tsne_2"] + [(self.labels[i])]]
                 sns.scatterplot(
-                    data=data, 
+                    data=data,
                     x=self.data["tsne_1"],
                     y=self.data["tsne_2"],
-                    hue=self.labels[i], 
-                    alpha=0.8, 
+                    hue=self.labels[i],
+                    alpha=0.8,
                     palette="deep",
-                    ax=axs[i]
+                    ax=axs[i],
                 )
                 axs[i].set_title(self.labels[i])
             plt.suptitle("Segment Visualization")
             plt.show()
         elif self.n_dimension == 3:
-            pass
+            for i in range(len(self.labels)):
+                data = self.data[["tsne_1", "tsne_2", "tsne_3"] + [(self.labels[i])]]
+                fig = express.scatter_3d(
+                    data,
+                    x="tsne_1",
+                    y="tsne_2",
+                    z="tsne_3",
+                    color=self.labels[i],
+                    title="cluster visualize 3D",
+                )
+                fig.show()
         else:
             print("n_dimension should be 2 or 3")

@@ -2,7 +2,7 @@
 
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
-from CNSES.utils.parameters import random_seed
+from ...utils.parameters import random_seed
 
 
 class KMeansCluster:

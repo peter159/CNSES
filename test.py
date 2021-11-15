@@ -114,7 +114,7 @@ def main(filepath: str) -> None:
         labels=cluster.columns["fclust_labels"],
     )
     visual.show()
-    
+
     con_vars = vars_to_process + ['S3'] + reader.columns["fac"]
     cat_vars = ['S0c','S4','A5','A6']
     # tabulation stage

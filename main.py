@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from data_process import (
+from CNSES.data_process import (
     Reader,
     ZipfProcess,
     PcaProcess,
@@ -18,11 +18,11 @@ from algorithms.clustering import (
     KprotoCluster,
     SubpaceCluster,
 )
-from visualize import TsneVisual
-from algorithms.typing import RandomforestTyping
-from tables import taball
-from utils import make_safe_path, ClusterReassign
-from config import vars_to_process, con_vars, cat_vars
+from CNSES.visualize import TsneVisual
+from CNSES.algorithms.typing import RandomforestTyping
+from CNSES.tables import taball
+from CNSES.utils import make_safe_path, ClusterReassign
+from CNSES.config import vars_to_process, con_vars, cat_vars
 
 
 def main(filepath: str) -> None:
