@@ -23,10 +23,10 @@ def main(filepath: str) -> None:
     reader = FaProcess(
         reader, vars=vars_fac1, nfactors="auto", loading_save=make_safe_path("./output/loadings.xlsx")
     )
-
     reader = FaProcess(
         reader, vars=vars_fac2, nfactors="auto", loading_save=make_safe_path("./output/loadings.xlsx")
     )
+
 #     reader = FaProcess(
 #         reader,
 #         vars=vars_to_process,

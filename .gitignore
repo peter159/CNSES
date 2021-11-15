@@ -3,3 +3,6 @@ raws/
 
 # pyc
 *.pyc
+
+# tests
+/tests/output
