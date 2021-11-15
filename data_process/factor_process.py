@@ -24,7 +24,7 @@ class FaProcess:
         _, kmo_model = calculate_kmo(data)
         print("----Test bartlett sphericity: [p value lower the better]")
         print("chi_squre_val: {}, P_val: {}".format(chi_square_val, p_val))
-        print("----Test KMO: [close to 1 the better]")
+        print("----Test KMO: [close to 1 is better]")
         print("KMO statistics: {}".format(kmo_model))
 
     def __fa_process__(self):
