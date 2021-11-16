@@ -3,7 +3,7 @@
 import pandas as pd
 
 # ref: https://www.datacamp.com/community/tutorials/introduction-factor-analysis
-from factor_analyzer import FactorAnalyzer
+from .factor_analysis import FactorAnalyzer # modified from factor_analyzer package
 from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity, calculate_kmo
 from ..utils.parameters import random_seed
 
@@ -35,7 +35,7 @@ class FaProcess:
         nvar = len(self.__temp_vars__)
         if self.nfactors == "auto":
             fa = FactorAnalyzer(
-                n_factors=nvar, rotation="varimax", method="principal"
+                n_factors=nvar, rotation="varimax", method="principal", svd_method="lapack"
             ).fit(data)
             ev, _ = fa.get_eigenvalues()
             self.nfactors = (ev >= 1).sum()

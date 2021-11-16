@@ -73,8 +73,9 @@ def main(filepath: str) -> None:
     # visualization stage
     visual = TsneVisual(
         cluster,
-        vars=vars_to_process,
+        vars=vars_fac1 + vars_fac2,
         labels=cluster.columns["fclust_labels"],
+        n_dimension=3
     )
     visual.show()
 
@@ -106,5 +107,7 @@ if __name__ == "__main__":
                  'B1_26_scale', 'B1_27_scale', 'B1_28_scale', 'B1_29_scale', 'B1_30_scale',
                  'B1_31_scale', 'B1_32_scale', 'B1_33_scale', 'B1_34_scale', 'B1_35_scale',
                  'B1_36_scale', 'B1_37_scale', 'B1_38_scale']                    
+
+    vars_to_process = vars_fac1 + vars_fac2
 
     data = main(filepath="./data/data1113.sav")

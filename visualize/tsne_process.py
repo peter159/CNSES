@@ -29,9 +29,9 @@ class TsneVisual:
         self.parent.columns.update({"tsne": cols})
         self.columns = self.parent.columns
         print("{:-^100}".format(" begin TSNE embedding "))
-        tsne_embeded = TSNE(n_components=self.n_dimension, verbose=1).fit_transform(
-            self.parent.data[self.__temp_vars__]
-        )
+        tsne_embeded = TSNE(
+            n_components=self.n_dimension, verbose=1, init="random", learning_rate=200
+        ).fit_transform(self.parent.data[self.__temp_vars__])
         self.parent.data[cols] = tsne_embeded
         self.data = self.parent.data
 
