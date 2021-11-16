@@ -5,7 +5,6 @@ import pandas as pd
 # ref: https://www.datacamp.com/community/tutorials/introduction-factor-analysis
 from .factor_analysis import FactorAnalyzer # modified from factor_analyzer package
 from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity, calculate_kmo
-from ..utils.parameters import random_seed
 
 
 class FaProcess:
