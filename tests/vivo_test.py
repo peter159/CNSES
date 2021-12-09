@@ -42,7 +42,7 @@ def main(filepath: str) -> None:
     cluster = FactorCluster(reader, vars=vars_to_cluster)
     cluster = KprotoCluster(
         reader,
-        convars=con_vars,
+        convars=factor_vars,
         catvars=cluster.columns["fclust_labels"] + cat_vars,
         nclusters=[11],
     )
