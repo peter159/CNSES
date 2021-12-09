@@ -30,6 +30,7 @@ def main(filepath: str) -> None:
     global factor_vars
     global add_tab_cat_vars
     global add_tab_con_vars
+
     # preprocess stage
     reader = Reader(filepath)
     reader = FaProcess(
@@ -43,12 +44,12 @@ def main(filepath: str) -> None:
         reader,
         convars=con_vars,
         catvars=cluster.columns["fclust_labels"] + cat_vars,
-        nclusters=[11,12],
+        nclusters=[11],
     )
 
     typing = RandomforestTyping(
     cluster,
-    vars=con_vars + cat_vars + factor_vars,
+    vars=cat_vars + factor_vars,
     labels=cluster.columns["kproto_labels"],
     clu_name="kproto",
     )
@@ -68,14 +69,13 @@ def main(filepath: str) -> None:
     con_vars = factor_vars + reader.columns["fac"] + add_tab_con_vars
     cat_vars = cat_vars + add_tab_cat_vars
     taball(
-        data=cluster,
+        data=cluster.data,
         con_vars=con_vars,
         cat_vars=cat_vars,
         clu_vars=cluster.columns["kproto_labels"],
         outfile=make_safe_path("./raws/output/upg_solu_tabs.xlsx"),
     )
-    return reassign.data
-
+    return cluster.data
 
 if __name__ == "__main__":
     import pandas as pd
@@ -117,9 +117,9 @@ if __name__ == "__main__":
     revenue = data.filter(like='S8').columns.tolist()
     Commodity_brand = data.filter(like='S9').columns.tolist()
 
-    con_vars = fre_byday+fre_byweek
-    # cat_vars = mobile_type+gender+age
-    cat_vars = gender
+    con_vars = Life_attitude
+    cat_vars = gender+age
+#     cat_vars = gender
     factor_vars = ['video', 'music', 'reading', 'education', 'socialmedia', 'photo', 
                    'health', 'shopping', 'Parenting', 'convenient', 'tools', 'efficiency', 
                    'finance', 'travel', 'working', 'mobie_game', 'BYOA']
