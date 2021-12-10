@@ -20,12 +20,17 @@ def tabit(
     mean = pd.DataFrame()
     if con_vars is not None:
         for i in con_vars:
-            clu_col_mean = data[i].groupby(data[clu_col]).mean()
-            total_mean = data[i].mean()
-            clu_col_mean = pd.DataFrame(clu_col_mean)
-            clu_col_mean = clu_col_mean.T
-            clu_col_mean.insert(0, "total", total_mean)
-            mean = mean.append(clu_col_mean)
+            try:
+                clu_col_mean = data[i].groupby(data[clu_col]).mean()
+                total_mean = data[i].mean()
+                clu_col_mean = pd.DataFrame(clu_col_mean)
+                clu_col_mean = clu_col_mean.T
+                clu_col_mean.insert(0, "total", total_mean)
+                mean = mean.append(clu_col_mean)
+            except Exception as e:
+                # raise(e, ",check your data in column {}".format(i))
+                raise TypeError(e, "check your data in column {}".format(i))
+        
         mean.insert(0, "convar", mean.index)
         total_count = data[clu_col].count()
         clu_col_count = data[clu_col].groupby(data[clu_col]).count()

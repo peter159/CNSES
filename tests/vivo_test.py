@@ -44,7 +44,7 @@ def main(filepath: str) -> None:
         reader,
         convars=factor_vars,
         catvars=cluster.columns["fclust_labels"] + cat_vars,
-        nclusters=[11],
+        nclusters=[3],
     )
 
     typing = RandomforestTyping(
