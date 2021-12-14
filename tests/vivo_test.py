@@ -42,7 +42,7 @@ def main(filepath: str) -> None:
     cluster = FactorCluster(reader, vars=vars_to_cluster)
     cluster = KprotoCluster(
         reader,
-        convars=factor_vars,
+        convars=[], 
         catvars=cluster.columns["fclust_labels"] + cat_vars,
         nclusters=[3],
     )
@@ -67,7 +67,8 @@ def main(filepath: str) -> None:
     
     # tabulation stage
     con_vars = factor_vars + reader.columns["fac"] + add_tab_con_vars
-    cat_vars = cat_vars + add_tab_cat_vars
+    # cat_vars = cat_vars + add_tab_cat_vars
+    cat_vars = cat_vars
     taball(
         data=cluster.data,
         con_vars=con_vars,
