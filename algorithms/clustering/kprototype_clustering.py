@@ -27,13 +27,13 @@ class KprotoCluster:
             np.random.seed(random_seed)
             if len(self.__temp_convars_) == 0:
                 labels = (
-                    KModes(n_clusters=nc, verbose=0, max_iter=200, init="Cao")
-                    .fit(data, categorical=cate_idx)
+                    KModes(n_clusters=nc, verbose=0, max_iter=200, init="Cao", n_jobs= -2)
+                    .fit(data.to_numpy())
                     .labels_
                 )
             else:
                 labels = (
-                    KPrototypes(n_clusters=nc, verbose=0, max_iter=200, init="Cao")
+                    KPrototypes(n_clusters=nc, verbose=0, max_iter=200, init="Cao", n_jobs= -2)
                     .fit(data, categorical=cate_idx)
                     .labels_
                 )
