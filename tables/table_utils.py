@@ -29,6 +29,7 @@ def tabit(
                 mean = mean.append(clu_col_mean)
             except Exception as e:
                 # raise(e, ",check your data in column {}".format(i))
+                __import__("ipdb").set_trace()  # FIXME BREAKPOINT
                 raise TypeError(e, "check your data in column {}".format(i))
         
         mean.insert(0, "convar", mean.index)
