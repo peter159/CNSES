@@ -137,4 +137,4 @@ if __name__ == "__main__":
 
 #     data = main(filepath="maxdiff_data_enlarge_save.sav")
     data = main(filepath="./1206vivo_data_drop_del.sav")
-    data.to_excel("./raws/output/1209V1.xlsx")
+    # data.to_excel("./raws/output/1209V1.xlsx")

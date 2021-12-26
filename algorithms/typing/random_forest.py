@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
 
 
 class RandomforestTyping:
@@ -31,13 +33,15 @@ class RandomforestTyping:
             model = RandomForestClassifier().fit(trainx, trainy)
             trainx_predict = model.predict(trainx)
             testx_predict = model.predict(testx)
+            cm = confusion_matrix(testy, testx_predict)
             predicted_all = model.predict(typing_data_x)
             self.__parent__.data[cols[self.labels.index(lab)]] = predicted_all
             self.data = self.__parent__.data
             print(
-                "{} -- train prediction: {}, test prediction: {}".format(
+                "{} -- train pred: {}, test pred: {}, test pred details: {}".format(
                     lab,
                     (trainy == trainx_predict).mean(),
                     (testy == testx_predict).mean(),
+                    (np.diag(cm / cm.astype(np.float64).sum(axis=1).reshape([-1, 1])))
                 )
             )
