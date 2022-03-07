@@ -5,7 +5,7 @@ from sklearn.metrics import silhouette_score, calinski_harabasz_score
 from ...utils.parameters import random_seed
 
 
-class SubpaceCluster:
+class SubspaceCluster:
     def __init__(self, reader, vars, nclusters) -> None:
         print("{:-^100}".format(" performing subspace clustering "))
         self.__parent__ = reader

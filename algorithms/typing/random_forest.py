@@ -8,7 +8,7 @@ from sklearn.metrics import confusion_matrix
 
 class RandomforestTyping:
     def __init__(self, cluster, vars, labels, clu_name) -> None:
-        print("{:-^100}".format(" start typing: Randomforest on {} ".format(clu_name)))
+        print("\n{:-^90}".format(" start typing: Randomforest on {} ".format(clu_name)))
         self.__parent__ = cluster
         self.__temp_vars__ = vars
         self.clu_name = clu_name
@@ -21,9 +21,7 @@ class RandomforestTyping:
     def __typing__(self):
         typing_data_x = self.__parent__.data[self.__temp_vars__]
         cols = [lab + "_pred" for lab in self.labels]
-        self.__parent__.columns.update({
-            self.clu_name + "predict": cols
-        })
+        self.__parent__.columns.update({self.clu_name + "predict": cols})
         self.columns = self.__parent__.columns
         for lab in self.labels:
             typing_data_y = self.__parent__.data[lab].tolist()
@@ -38,10 +36,17 @@ class RandomforestTyping:
             self.__parent__.data[cols[self.labels.index(lab)]] = predicted_all
             self.data = self.__parent__.data
             print(
-                "{} -- train pred: {}, test pred: {}, test pred details: {}".format(
+                "{} -- train: {}, test: {}, diag: {}".format(
                     lab,
                     (trainy == trainx_predict).mean(),
-                    (testy == testx_predict).mean(),
-                    (np.diag(cm / cm.astype(np.float64).sum(axis=1).reshape([-1, 1])))
+                    np.round((testy == testx_predict).mean(), decimals=2),
+                    (
+                        np.round(
+                            np.diag(
+                                cm / cm.astype(np.float64).sum(axis=1).reshape([-1, 1])
+                            ),
+                            decimals=2,
+                        )
+                    ),
                 )
             )

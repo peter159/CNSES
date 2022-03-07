@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from CNSES.file_reader import Reader
+
 from CNSES.data_process import (
-    Reader,
     ZipfProcess,
     PcaProcess,
     ExponProcess,
@@ -13,7 +14,8 @@ from CNSES.algorithms.clustering import (
     HcCluster,
     FactorCluster,
     KprotoCluster,
-    SubpaceCluster,
+    SubspaceCluster,
+    KMedoidsCluster, 
 )
 from CNSES.visualize import TsneVisual
 from CNSES.algorithms.typing import RandomforestTyping
@@ -40,17 +42,27 @@ def main(filepath: str) -> None:
 #     # cluster stage
 #     vars_to_cluster = reader.columns["fac"]
 #     cluster = FactorCluster(reader, vars=vars_to_cluster)
-    cluster = KprotoCluster(
+
+    # cluster = KprotoCluster(
+    #     reader,
+    #     convars=con_vars,
+    #     catvars=cat_vars,
+    #     nclusters=[16,17,18],
+    # )
+
+    cluster = KMedoidsCluster(
         reader,
         convars=con_vars,
         catvars=cat_vars,
         nclusters=[16,17,18],
+        weight=[1] * 17 + [3, 3]
     )
+    __import__("ipdb").set_trace()  # FIXME BREAKPOINT
 
     typing = RandomforestTyping(
     cluster,
     vars=tp_vars,
-    labels=cluster.columns["kproto_labels"],
+    labels=cluster.columns["kmedoids_labels"],
     clu_name="kproto",
     )
 
@@ -72,7 +84,7 @@ def main(filepath: str) -> None:
         data=cluster.data,
         con_vars=con_vars,
         cat_vars=cat_vars,
-        clu_vars=cluster.columns["kproto_labels"],
+        clu_vars=cluster.columns["kmedoids_labels"],
         outfile=make_safe_path("./raws/output/upg_solu_tabs.xlsx"),
     )
     return cluster.data
@@ -121,14 +133,17 @@ if __name__ == "__main__":
     Commodity_brand = data.filter(like='S9').columns.tolist()
 
     # used for clustering
-    con_vars = []
+    con_vars = ['video', 'music', 'reading', 'education', 'socialmedia', 'photo', 
+                   'health', 'shopping', 'Parenting', 'convenient', 'tools', 'efficiency', 
+                   'finance', 'travel', 'working', 'mobie_game', 'BYOA']
+    # cat_vars = []
     cat_vars = ['fclust_12','lifestage'] #+age+mobile_type+city_tier
     # cat_vars = ['lifestage'] #+age+mobile_type+city_tier
     
     # used in typing
-    tp_vars = ['video', 'music', 'reading', 'education', 'socialmedia', 'photo', 
-                   'health', 'shopping', 'Parenting', 'convenient', 'tools', 'efficiency', 
-                   'finance', 'travel', 'working', 'mobie_game', 'BYOA']+cat_vars
+    tp_vars = ['video', 'music', 'reading', 'education', 'socialmedia', 'photo',
+               'health', 'shopping', 'Parenting', 'convenient', 'tools', 'efficiency',
+               'finance', 'travel', 'working', 'mobie_game', 'BYOA']+cat_vars
     
     # used in tabulation
     tab_con_vars = ['video', 'music', 'reading', 'education', 'socialmedia', 'photo', 

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# -*- coding: utf-8 -*-
+from CNSES.file_reader import Reader
 
 from CNSES.data_process import (
-    Reader,
     ZipfProcess,
     PcaProcess,
     ExponProcess,
@@ -15,12 +14,12 @@ from CNSES.algorithms.clustering import (
     HcCluster,
     FactorCluster,
     KprotoCluster,
-    SubpaceCluster,
+    SubspaceCluster,
+    KMedoidsCluster,
 )
 from CNSES.visualize import TsneVisual
 from CNSES.algorithms.typing import RandomforestTyping
 from CNSES.tables import taball
-from CNSES.utils import make_safe_path, ClusterReassign
 
 
 def main(filepath: str) -> None:
@@ -141,7 +140,6 @@ if __name__ == "__main__":
 
     tab_con_vars = H1_Loop+A7+WM4_Loop_1_WM4+WM4_Loop_2_WM4+['S11C_Loop_1_S11C_Num']
     tab_cat_vars = A0+A1a+A1b+A1c+['S11A_Loop_1_S11A','S12B','S11D_Loop_1_S11D']
-
 
     data = main(filepath="./data/Simens0304.sav")
     data.to_excel("./output/tabit_m.xlsx")

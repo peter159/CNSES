@@ -7,7 +7,8 @@ from .spectral_clustering import SpectralCluster
 from .hierarchical_clustering import HcCluster
 from .factor_clustering import FactorCluster
 from .kprototype_clustering import KprotoCluster
-from .subspace_clustering import SubpaceCluster
+from .subspace_clustering import SubspaceCluster
+from .kmedoids_clustering import KMedoidsCluster
 
 
 __all__ = ["KMeansCluster",
@@ -17,4 +18,5 @@ __all__ = ["KMeansCluster",
            "HcCluster",
            "FactorCluster",
            "KprotoCluster",
-           "SubspaceCluster"]
+           "SubspaceCluster",
+           "KMedoidsCluster"]
