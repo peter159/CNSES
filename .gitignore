@@ -4,5 +4,9 @@ raws/
 # pyc
 *.pyc
 
+.env
+.projectile
+.pyrightconfig.json
+
 # tests
 /tests/output
