@@ -2,7 +2,7 @@ import warnings
 import math
 import numpy as np
 import progressbar
-# import spams
+import spams
 import time
 
 from scipy import sparse
@@ -530,17 +530,17 @@ def least_squares_subspace_clustering(X, gamma=10.0, exclude_self=False):
     if exclude_self == False:
         if n_samples < n_features:
             gram = np.matmul(X, X.T)
-            return np.linalg.solve(gram + np.eye(n_sample) / gamma, gram).T
+            return np.linalg.solve(gram + np.eye(n_samples) / gamma, gram).T
         else:
             tmp = np.linalg.solve(np.matmul(X.T, X) + np.eye(n_features) / gamma, X.T)
             return np.matmul(X, tmp).T
     else:
         if n_samples < n_features:
-            D = np.linalg.solve(np.matmul(X, X.T) + np.eye(n_sample) / gamma, np.eye(n_sample))  
+            D = np.linalg.solve(np.matmul(X, X.T) + np.eye(n_samples) / gamma, np.eye(n_samples))  
             # see Theorem 6 in https://arxiv.org/pdf/1404.6736.pdf
         else:
             tmp = np.linalg.solve(np.matmul(X.T, X) + np.eye(n_features) / gamma, X.T)
-            D = eye(n_samples) - np.matmul(X, tmp)
+            D = np.eye(n_samples) - np.matmul(X, tmp)
         D = D / D.diagonal()[None,:]
         np.fill_diagonal(D, 0.0)
         return -1.0 * D.T

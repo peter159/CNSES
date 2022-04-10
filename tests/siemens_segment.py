@@ -20,6 +20,7 @@ from CNSES.algorithms.clustering import (
 from CNSES.visualize import TsneVisual
 from CNSES.algorithms.typing import RandomforestTyping
 from CNSES.tables import taball
+from CNSES.utils import make_safe_path
 
 
 def main(filepath: str) -> None:
