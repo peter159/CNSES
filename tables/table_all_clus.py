@@ -10,6 +10,10 @@ def taball(data, con_vars, cat_vars, clu_vars, outfile=None):
     clu_vars: list of clu vars
     outfile: path to file name, with xlsx extension
     """
+    if con_vars is None:
+        con_vars = []
+    if cat_vars is None:
+        cat_vars = []
     print("{:-^100}".format(" start tabulation "))
     startcol = 0
     flag = True

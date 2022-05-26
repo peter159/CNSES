@@ -180,7 +180,9 @@ def append_df_to_excel(
     if "engine" in to_excel_kwargs:
         to_excel_kwargs.pop("engine")
 
-    writer = pd.ExcelWriter(filename, engine="openpyxl", mode="a")
+    writer = pd.ExcelWriter(
+        filename, engine="openpyxl", mode="a", if_sheet_exists="overlay"
+    )
 
     # try to open an existing workbook
     writer.book = load_workbook(filename)
@@ -219,7 +221,7 @@ def append_df_to_excel(
 
 
 if __name__ == "__main__":
-    data = pd.read_excel("../raws/new.xlsx")
+    data = pd.read_excel("../tests/midea_test/data/midea_data_for_segment.xlsx")
 
     start_col = 0
     for i in range(3):
