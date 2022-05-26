@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-from numpy import fabs
 import pandas as pd
 from CNSES.file_reader import Reader
 from CNSES.data_process import FaProcess
