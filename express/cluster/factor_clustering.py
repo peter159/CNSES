@@ -28,7 +28,10 @@ def factor_clustering(
     tab_output: string, path for tabulation output
     membership_output: string, path for membership output
     """
+    # readin data
     reader = Reader(data_path)
+
+    # factor analysis
     nfac = ncluster
     if ncluster != "auto":
         nfac = "auto"
