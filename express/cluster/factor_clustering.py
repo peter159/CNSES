@@ -10,7 +10,7 @@ from CNSES.tables import taball
 def factor_clustering(
     data_path,
     fvar_list,
-    nfac,
+    ncluster,
     tab_con_vars,
     tab_cat_vars,
     fa_output,
@@ -21,7 +21,7 @@ def factor_clustering(
     quick clustering
     data_path: string, file path, can be sav, xlsx, csv
     fvar_list: list, vars list use to do factor analysis
-    nfac: int, number of factors to extract, default "auto"
+    ncluster: int, number of clusters to extract, default "auto"
     tab_con_vars: list, continuous vars used for tabulation
     tab_cat_vars: list, categorical vars used for tabulation
     fa_output: string, path for factor analysis output
@@ -29,6 +29,9 @@ def factor_clustering(
     membership_output: string, path for membership output
     """
     reader = Reader(data_path)
+    nfac = ncluster
+    if ncluster != "auto":
+        nfac = "auto"
     reader = FaProcess(
         reader,
         vars=fvar_list,

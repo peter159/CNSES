@@ -10,3 +10,5 @@ raws/
 
 # tests
 /tests/output
+
+__pycache__
