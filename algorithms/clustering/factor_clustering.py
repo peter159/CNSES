@@ -4,17 +4,24 @@ from sklearn.metrics import silhouette_score, calinski_harabasz_score
 
 
 class FactorCluster:
-    def __init__(self, reader, vars) -> None:
+    def __init__(self, reader) -> None:
         print("{:-^100}".format(" performing factor clustering "))
         self.__parent__ = reader
-        self.cluster_vars = vars
         self.__perform_clustering__()
 
     def __perform_clustering__(self):
         """
-        cluster based on factor extracted
+        cluster based on factor extracted, ignore fac1_ which is from auto factoring
         """
-        grps = list(set([x.split("_")[0] for x in self.__parent__.columns["fac"]]))
+        grps = list(
+            set(
+                [
+                    x.split("_")[0]
+                    for x in self.__parent__.columns["fac"]
+                    if not x.startswith("fac1_")
+                ]
+            )
+        )
         grps.sort()
         cols = []
         for g in grps:

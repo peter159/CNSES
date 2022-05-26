@@ -8,11 +8,13 @@ from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity, calcu
 
 
 class FaProcess:
-    def __init__(self, reader, vars, nfactors="auto", loading_save=None) -> None:
+    def __init__(self, reader, vars, nfactors="auto", loading_save=None, printable=True) -> None:
         """
         vars: list of var names
         nfactors: int, number of factors to extract"""
-        print("{:-^100}".format(" performing factor analysis and transformation "))
+        if printable:
+            print("{:-^100}".format(" performing factor analysis and transformation "))
+        self.printable = printable
         self.__parent__ = reader
         self.__temp_vars__ = vars
         self.nfactors = nfactors
@@ -24,10 +26,11 @@ class FaProcess:
         data = self.__parent__.data[self.__temp_vars__]
         chi_square_val, p_val = calculate_bartlett_sphericity(data.to_numpy())
         _, kmo_model = calculate_kmo(data)
-        print("----Test bartlett sphericity: [p value the lower the better]")
-        print("chi_squre_val: {}, P_val: {}".format(chi_square_val, p_val))
-        print("----Test KMO: [close to 1 is better]")
-        print("KMO statistics: {}".format(kmo_model))
+        if self.printable:
+            print("----Test bartlett sphericity: [p value the lower the better]")
+            print("chi_squre_val: {}, P_val: {}".format(chi_square_val, p_val))
+            print("----Test KMO: [close to 1 is better]")
+            print("KMO statistics: {}".format(kmo_model))
 
     def __fa_process__(self):
         """
@@ -84,7 +87,8 @@ class FaProcess:
         self.data = self.__parent__.data
         if self.loading_save is not None:
             fa_loadings.to_excel(self.loading_save)
-        print("----factor loading: ")
-        print(fa_loadings)
-        print("----factor variance explained: ")
-        print(fa_variance_explained)
+        if self.printable:
+            print("----factor loading: ")
+            print(fa_loadings)
+            print("----factor variance explained: ")
+            print(fa_variance_explained)
